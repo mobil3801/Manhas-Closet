@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mobil3801/Manhas-Closet#readme",
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.1",
     "@react-pdf/renderer": "^4.3.0",
     "@supabase/supabase-js": "^2.54.0",
