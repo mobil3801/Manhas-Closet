@@ -45,8 +45,8 @@ import SalesReportsPage from '../pages/reports/SalesReportsPage'
 import InventoryReportsPage from '../pages/reports/InventoryReportsPage'
 
 // Settings Pages
-import SettingsPage from '../pages/settings/SettingsPage'
-import ProfilePage from '../pages/profile/ProfilePage'
+import SettingsPage from '../pages/SettingsPage'
+import ProfilePage from '../pages/ProfilePage'
 
 // Protected Route Components
 import ProtectedRoute from './ProtectedRoute'
