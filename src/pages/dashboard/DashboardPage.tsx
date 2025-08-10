@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useInventoryStore } from '../../store/inventoryStore'
+import { useInventoryStore } from '../../stores/inventoryStore'
 import { usePaymentStore } from '../../store/paymentStore'
 import { useEmployeeStore } from '../../store/employeeStore'
 import LoadingSpinner from '../../components/ui/LoadingSpinner'
