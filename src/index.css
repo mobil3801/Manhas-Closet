@@ -51,7 +51,7 @@
 
 @layer base {
   * {
-    @apply border-solid;
+    /* Remove the @apply border-solid as it's not a valid Tailwind utility */
   }
   body {
     @apply bg-background text-foreground;
