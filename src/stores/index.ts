@@ -11,19 +11,15 @@ export {
   showInfoNotification 
 } from './uiStore'
 
-// Store initialization function
-export const initializeStores = async () => {
-  // Initialize auth store
-  const { checkAuth } = useAuthStore.getState()
-  await checkAuth()
-
-  // Initialize other stores if needed
-  // This can be expanded to include other initialization logic
-}
-
 // Store cleanup function
 export const cleanupStores = () => {
   // Reset all stores to initial state
+  const { useAuthStore } = require('./authStore')
+  const { useInventoryStore } = require('./inventoryStore')
+  const { useInvoiceStore } = require('./invoiceStore')
+  const { useEmployeeStore } = require('./employeeStore')
+  const { useUIStore } = require('./uiStore')
+
   useAuthStore.setState({
     user: null,
     session: null,

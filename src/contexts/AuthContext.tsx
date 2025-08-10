@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, ReactNode } from 'react'
-import { useAuthStore, initializeStores } from '@/stores'
+import { useAuthStore } from '@/stores'
 import type { User, AuthState } from '@/types'
 
 interface AuthContextType extends AuthState {
@@ -21,8 +21,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const authStore = useAuthStore()
 
   useEffect(() => {
-    // Initialize stores when the app starts
-    initializeStores()
+    // Initialize auth store by checking current auth state
+    authStore.checkAuth()
   }, [])
 
   const contextValue: AuthContextType = {
