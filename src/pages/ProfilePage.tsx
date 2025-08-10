@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuthStore } from '../store/authStore'
+import { useAuthStore } from '../stores/authStore'
 import { UserCircleIcon, KeyIcon, CameraIcon } from '@heroicons/react/24/outline'
 
 const ProfilePage = () => {
