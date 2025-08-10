@@ -1,0 +1,61 @@
+{
+  "mcpServers": {
+    "sequentialthinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ]
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/inspector",
+        "uvx",
+        "mcp-server-git",
+        "--repository",
+        "https://github.com/mobil3801/Manhas-Closet"
+      ]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "BSAvoE1ns8CdTsbXwB1Xil3UyaLfmwz"
+      }
+    },
+    "time": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_server_time"
+      ]
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:Dreamframe123@@db.npuqxyocqaqvicclwjti.supabase.co:5432/postgres"
+      ]
+    }
+  }
+}
