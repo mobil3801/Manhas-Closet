@@ -1,6 +1,20 @@
 import { createContext, useContext, useEffect, ReactNode } from 'react'
-import { useAuthStore } from '@/stores'
-import type { User, AuthState } from '@/types'
+import { useAuthStore } from '../store/authStore'
+import LoadingPage from '../components/ui/LoadingPage'
+import ErrorMessage from '../components/ui/ErrorMessage'
+
+interface User {
+  id: string
+  email: string
+  role?: string
+  fullName?: string
+}
+
+interface AuthState {
+  user: User | null
+  isLoading: boolean
+  error: string | null
+}
 
 interface AuthContextType extends AuthState {
   signIn: (email: string, password: string) => Promise<void>
@@ -29,8 +43,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     ...authStore,
   }
 
+  // Show loading page during initial auth check
+  if (authStore.isLoading && !authStore.user && !authStore.error) {
+    return <LoadingPage message="Checking authentication..." />
+  }
+
   return (
     <AuthContext.Provider value={contextValue}>
+      {authStore.error && (
+        <div className="fixed top-4 right-4 z-50 max-w-md">
+          <ErrorMessage
+            title="Authentication Error"
+            message={authStore.error}
+            onDismiss={authStore.clearError}
+          />
+        </div>
+      )}
       {children}
     </AuthContext.Provider>
   )
