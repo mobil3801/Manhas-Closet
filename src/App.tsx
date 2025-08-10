@@ -1,54 +1,38 @@
-import { useState } from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
-import DatabaseTest from './components/DatabaseTest'
+import AppRoutes from './routes/AppRoutes'
+import { Toaster } from 'react-hot-toast'
+import './index.css'
 
 function App() {
-  const [showFullApp, setShowFullApp] = useState(false)
-
-  if (!showFullApp) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Manhas Closet - Supabase Connection Test
-          </h1>
-          
-          <AuthProvider>
-            <DatabaseTest />
-          </AuthProvider>
-          
-          <div className="mt-8 text-center">
-            <button
-              onClick={() => setShowFullApp(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
-            >
-              Continue to Full App
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-          Manhas Closet Management System
-        </h1>
-        <p className="text-center text-gray-600">
-          Full application will be implemented here once database connection is verified.
-        </p>
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => setShowFullApp(false)}
-            className="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700"
-          >
-            Back to Connection Test
-          </button>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+            success: {
+              duration: 3000,
+              style: {
+                background: '#059669',
+              },
+            },
+            error: {
+              duration: 5000,
+              style: {
+                background: '#DC2626',
+              },
+            },
+          }}
+        />
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
