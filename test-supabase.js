@@ -22,17 +22,37 @@ async function testConnection() {
     // Test basic connection
     console.log('\n🔍 Testing basic connection...');
     
-    // First, try to list all tables to see what's available
+    // Try to list all tables using RPC (PostgreSQL way)
     console.log('\n📋 Attempting to list available tables...');
-    const { data: tablesData, error: tablesError } = await supabase
-      .from('information_schema.tables')
-      .select('table_name')
-      .eq('table_schema', 'public');
-      
-    if (tablesError) {
-      console.log('⚠️ Could not list tables:', tablesError.message);
-    } else {
-      console.log('📋 Available tables:', tablesData.map(t => t.table_name));
+    try {
+      const { data: tablesData, error: tablesError } = await supabase
+        .rpc('get_tables');
+        
+      if (tablesError) {
+        console.log('⚠️ Could not list tables with RPC:', tablesError.message);
+        
+        // Try a different approach - list common table names
+        const commonTables = ['products', 'categories', 'users', 'orders', 'items', 'inventory'];
+        console.log('\n🔍 Checking for common table names...');
+        
+        for (const table of commonTables) {
+          try {
+            const { data, error } = await supabase
+              .from(table)
+              .select('count', { count: 'exact', head: true });
+              
+            if (!error) {
+              console.log(`✅ Found table: ${table}`);
+            }
+          } catch (e) {
+            // Ignore errors for this check
+          }
+        }
+      } else {
+        console.log('📋 Available tables:', tablesData);
+      }
+    } catch (e) {
+      console.log('⚠️ Could not list tables:', e.message);
     }
     
     // Try the categories table
@@ -57,7 +77,10 @@ async function testConnection() {
         return false;
       } else {
         console.log('✅ Simple count query worked!');
+        console.log(`📊 Found ${countData.length || 0} records in categories table`);
       }
+    } else {
+      console.log(`✅ Successfully retrieved ${data.length} records from categories table`);
     }
 
     console.log('✅ Database connection successful!');
