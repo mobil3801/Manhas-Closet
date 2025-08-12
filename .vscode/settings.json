@@ -3,5 +3,7 @@
     "Codegeex.RepoIndex": true,
     "Codegeex.Chat.LanguagePreference": "English",
     "Codegeex.Comment.LanguagePreference": "English",
-    "Codegeex.CommitMessage.LanguagePreference": "English"
+    "Codegeex.CommitMessage.LanguagePreference": "English",
+    "codium.codeCompletion.enable": true,
+    "CodeGPT.apiKey": "OpenRouter"
 }

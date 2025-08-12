@@ -1,7 +1,10 @@
 // Data Schema Runner for Manhas Closet
 // This script validates all tables and forms are properly connected to Supabase
 
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Supabase configuration
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://npuqxyocqaqvicclwjti.supabase.co';
@@ -319,10 +322,10 @@ class DataSchemaRunner {
 }
 
 // Export for use
-module.exports = DataSchemaRunner;
+export default DataSchemaRunner;
 
 // Run if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const runner = new DataSchemaRunner();
   runner.runAll().then(() => {
     console.log('\n🏁 Validation complete!');
