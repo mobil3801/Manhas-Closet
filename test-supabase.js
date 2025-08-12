@@ -1,21 +1,24 @@
-import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 
-dotenv.config();
+// 使用提供的服务密钥进行直接访问
+const supabaseUrl = 'https://nehhjsiuhthflfwkfequ.supabase.co';
+const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5laGhqc2l1aHRoZmxmd2tmZXF1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MzAxMzE3NSwiZXhwIjoyMDY4NTg5MTc1fQ.7naT6l_oNH8VI5MaEKgJ19PoYw1EErv6-ftkEin12wE';
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ Missing Supabase credentials in .env file');
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ Missing Supabase credentials');
   process.exit(1);
 }
 
-console.log('Testing Supabase connection...');
+console.log('Testing Supabase connection with service key...');
 console.log('URL:', supabaseUrl);
-console.log('Key:', supabaseAnonKey ? 'Set ✅' : 'Missing ❌');
+console.log('Service Key:', supabaseServiceKey ? 'Set ✅' : 'Missing ❌');
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// 使用服务密钥创建客户端以获得管理员访问权限
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    persistSession: false
+  }
+});
 
 async function testConnection() {
   try {
@@ -86,8 +89,8 @@ async function testConnection() {
     console.log('✅ Database connection successful!');
     console.log('📊 Sample data:', data);
 
-    // Test auth
-    console.log('\n🔍 Testing authentication...');
+    // 使用服务密钥测试认证
+    console.log('\n🔍 Testing authentication with service key...');
     const { data: { session }, error: authError } = await supabase.auth.getSession()
 
     if (authError) {
