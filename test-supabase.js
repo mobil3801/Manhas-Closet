@@ -20,24 +20,51 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 async function testConnection() {
   try {
     // Test basic connection
-    console.log('
-🔍 Testing basic connection...');
+    console.log('\n🔍 Testing basic connection...');
+    
+    // First, try to list all tables to see what's available
+    console.log('\n📋 Attempting to list available tables...');
+    const { data: tablesData, error: tablesError } = await supabase
+      .from('information_schema.tables')
+      .select('table_name')
+      .eq('table_schema', 'public');
+      
+    if (tablesError) {
+      console.log('⚠️ Could not list tables:', tablesError.message);
+    } else {
+      console.log('📋 Available tables:', tablesData.map(t => t.table_name));
+    }
+    
+    // Try the categories table
+    console.log('\n🔍 Testing categories table...');
     const { data, error } = await supabase
       .from('categories')
       .select('id, name')
       .limit(5)
 
     if (error) {
-      console.error('❌ Database connection failed:', error.message);
-      return false;
+      console.error('❌ Query failed:', error.message);
+      console.log('💡 Tip: The table might not exist or you might not have permissions to access it');
+      
+      // Try a simple query instead
+      console.log('\n🔍 Trying a simple count query instead...');
+      const { data: countData, error: countError } = await supabase
+        .from('categories')
+        .select('*', { count: 'exact', head: true });
+        
+      if (countError) {
+        console.log('❌ Simple count also failed:', countError.message);
+        return false;
+      } else {
+        console.log('✅ Simple count query worked!');
+      }
     }
 
     console.log('✅ Database connection successful!');
     console.log('📊 Sample data:', data);
 
     // Test auth
-    console.log('
-🔍 Testing authentication...');
+    console.log('\n🔍 Testing authentication...');
     const { data: { session }, error: authError } = await supabase.auth.getSession()
 
     if (authError) {
@@ -57,11 +84,9 @@ async function testConnection() {
 testConnection()
   .then(success => {
     if (success) {
-      console.log('
-🎉 All tests passed! Supabase is properly connected.');
+      console.log('\n🎉 All tests passed! Supabase is properly connected.');
     } else {
-      console.log('
-💥 Some tests failed. Please check your configuration.');
+      console.log('\n💥 Some tests failed. Please check your configuration.');
     }
     process.exit(success ? 0 : 1);
   })
